@@ -1,0 +1,24 @@
+name: CI
+
+# Triggers: run on every push and pull request to main
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest   # GitHub-hosted runner (free)
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Say hello
+        run: echo "Hello from GitHub Actions! 🎉"
+
+      - name: Show runner info
+        run: |
+          echo "OS: $(uname -a)"
+          echo "Node: $(node --version 2>/dev/null || echo 'not installed')"
