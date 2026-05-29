@@ -1,6 +1,5 @@
 name: CI
 
-# Triggers: run on every push and pull request to main
 on:
   push:
     branches: [ "main" ]
@@ -8,17 +7,19 @@ on:
     branches: [ "main" ]
 
 jobs:
-  build:
-    runs-on: ubuntu-latest   # GitHub-hosted runner (free)
+  test:
+    runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Say hello
-        run: echo "Hello from GitHub Actions! 🎉"
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
 
-      - name: Show runner info
-        run: |
-          echo "OS: $(uname -a)"
-          echo "Node: $(node --version 2>/dev/null || echo 'not installed')"
+      - name: Install dependencies
+        run: npm install --if-present
+
+      - name: Run tests
+        run: npm test
